@@ -1,28 +1,232 @@
 {{define "base"}}
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
     
-        {{block "css" .}}
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Rooms
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/generals-quarters">General's Quarters</a></li>
+                  <li><a class="dropdown-item" href="/majors-suite">Major's Suite</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" aria-disabled="true" href="/contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/search-availability">Book Now</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-        {{end}}
-    </head>
-    <body>
     {{block "content" .}}
 
-    {{end}}
-
-    {{block "js" .}}
 
     {{end}}
 
-    </body>
-    </html>
+    <div class="row my-footer">
+
+        <div class="col">
+          Left
+        </div>
+  
+  
+        <div class="col">
+          Center
+        </div>
+  
+  
+        <div class="col">
+          Right
+        </div>
+  
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+      <script src="https://unpkg.com/notie"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
+ 
+      
+      <script>
+        
+
+  
+  
+         (() => {
+          'use strict'
+  
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          const forms = document.querySelectorAll('.needs-validation')
+  
+          // Loop over them and prevent submission
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+  
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })();
+  
+                
+        function Prompt() {
+          let toastNotification = function(c) {
+  
+            const {
+              msg = "", 
+              icon = "success",
+              pos = "top-end", 
+              toast = true,
+            } = c
+            
+            console.log("Hi love!");
+            
+            const Toast = Swal.mixin({
+              toast: toast,
+              position: pos,
+              showConfirmButton: false, 
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+  
+            Toast.fire({
+              icon: icon, 
+              title: msg
+            });
+          };
+  
+          let success = function(c) {
+            const {
+              msg = "", 
+              title = "",
+              footer = ""
+            } = c
+  
+            Swal.fire({
+                      icon: "success",
+                      title: title,
+                      text: msg,
+                      footer: footer
+                    });
+          }
+  
+          let error = function(c) {
+            
+            const {
+              msg = "", 
+              title = "",
+              footer = ""
+            } = c
+  
+            Swal.fire({
+                      icon: "error",
+                      title: title,
+                      text: msg,
+                      footer: footer
+                    });
+          }
+  
+          async function custom(c) {
+            const {
+              msg = "", 
+              title = ""
+            } = c
+  
+            const { value: result } = await Swal.fire({
+                    
+              title: title,
+              html: msg,
+              backdrop: false,
+              showCancelButton: true,
+              focusConfirm: false,
+              didOpen: () => {
+                if (c.didOpen() !== undefined) {
+                  c.didOpen()
+                }; 
+              },
+              preConfirm: () => {
+  
+                return [
+                document.getElementById("start").value,
+                document.getElementById("end").value
+                ];
+              }
+              });
+              
+              if (result) {
+
+              if (result.dismiss !== Swal.DismissReason.cancel) {
+                if (result.value !== "") {
+                  if (c.callback !== undefined) {
+                    c.callback(result);
+                  }
+                } else {
+                  c.callback(false);
+                }
+              } else {
+                c.callback(false);
+              }
+              }
+          }
+  
+          return {toast: toastNotification, 
+            success: success, 
+            error: error, 
+            custom: custom}
+        }
+  
+        let attention = Prompt()
+
+        {{block "js" .}}
+      
+
+        {{end}}
+
+
+
+      </script>
+
+
+  </body>
+  </html>
 
 {{end}}

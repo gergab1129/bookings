@@ -1,0 +1,45 @@
+{{template "base" . }}
+
+{{define "content"}}
+ <div class="container">
+
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <h1 class="mt-5">Make Reservation</h1>
+
+            <form method="POST" class="input-group needs-validation", action="" novalidate>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input required type="text" class="form-control" id="start_date" name="start_date" aria-describedby="firstNameHelp" placeholder="First Name" >
+                        <div id="firstNameHelp" class="form-text">Introduce your first name</div>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input required type="text" class="form-control" id="last_date" name="last_date" aria-describedby="lastNameHelp" placeholder="Last Name" >
+                        <div id="lastNameHelp" class="form-text">Introduce your last name</div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input required type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Telephone</span>
+                        <input required type="tel" class="form-control" id="phone" name="phone" aria-label="Telephone number">
+                      </div>
+                </div>
+              
+              <div>
+                <button type="submit" class="btn btn-primary">Make Reservations</button>
+              </div>
+                
+            </form>
+          </div>
+        </div>
+
+    </div>
+
+
+{{end}}

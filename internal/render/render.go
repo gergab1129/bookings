@@ -8,8 +8,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gergab1129/bookings/pkg/config"
-	"github.com/gergab1129/bookings/pkg/models"
+	"github.com/gergab1129/bookings/internal/config"
+	"github.com/gergab1129/bookings/internal/models"
+	"github.com/justinas/nosurf"
 )
 
 var app *config.AppConfig
@@ -19,13 +20,14 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 // RenderTemplate render templates using html
 func RenderTemplate(w http.ResponseWriter, tmpl string,
-	 td *models.TemplateData) {
+	 td *models.TemplateData, r *http.Request) {
 
 	var tc map[string] *template.Template
 	
@@ -51,7 +53,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string,
 		os.Exit(1)
 	}
 
-	td = AddDefaultData(td)
+	td = AddDefaultData(td, r)
 
 	buf := new(bytes.Buffer)
 

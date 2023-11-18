@@ -1,0 +1,52 @@
+{{template "base" . }}
+
+{{define "content"}}
+
+ <div class="container">
+      <div class="row">
+        <div class="col">
+          <img src="/static/images/marjors-suite.png" class="img-fluid img-thumbnail rounded mx-auto d-block room-image">
+
+        </div>
+
+      </div>
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center mt-4">Major's Suite</h1>
+                <p> Your home away from home set in the majestic waters of the Atlantic Oceans, this will be a vacation to remember</p>
+            </div>
+        </div>
+
+        <div class="row"> 
+          <div class="col text-center">
+            <a id="check-availability-btn" href="#!" class="btn btn-success"> Check Availability</a>
+          </div>
+        </div>
+
+    </div>
+
+{{end}}
+
+{{ define "js" }}
+        let book_btn = document.getElementById("check-availability-btn")
+            book_btn.addEventListener("click", function() {
+            let html = `<form id="check-avilability-form" action="" method="post" novalidate class="needs-validation">
+                        <div class="row">
+                            <div class="col">
+                                <div id="date-picker">
+                                <div class="row">
+                                    <div class="col">
+                                    <input required type="text" class="form-control" name="start" id="start" placeholder="Arrival Date">
+                                    </div>
+                                    <div class="col">
+                                    <input required type="text" class="form-control" name="end" id="end" placeholder="Departure Date">  
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>`
+
+            attention.custom({title: "Select date range", msg: html})
+            })
+{{ end }}

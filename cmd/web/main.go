@@ -6,9 +6,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/gergab1129/bookings/pkg/config"
-	"github.com/gergab1129/bookings/pkg/handlers"
-	"github.com/gergab1129/bookings/pkg/render"
+	"github.com/gergab1129/bookings/internal/config"
+	"github.com/gergab1129/bookings/internal/handlers"
+	"github.com/gergab1129/bookings/internal/render"
 
 	"github.com/alexedwards/scs/v2"
 )
