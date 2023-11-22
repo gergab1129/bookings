@@ -1,5 +1,7 @@
 package models
 
+import "github.com/gergab1129/bookings/internal/forms"
+
 // TemplateDate holds data set from handlers to templates
 type TemplateData struct {
 	
@@ -11,4 +13,5 @@ type TemplateData struct {
 	Flash string
 	Warning string
 	Error string
+	Form *forms.Form
 }

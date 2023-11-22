@@ -58,6 +58,9 @@
                     <div class="col-md-6">
                         <label for="first_name" class="form-label">First Name</label>
                         <input required type="text" class="form-control" id="start_date" name="start_date" aria-describedby="firstNameHelp" placeholder="First Name" >
+                        {{ with .Form.Errors.Get "first_name" }}
+                          <label class="danger">{{.}}</label>
+                        {{end}}
                         <div id="firstNameHelp" class="form-text">Introduce your first name</div>
                       </div>
                       <div class="col-md-6">

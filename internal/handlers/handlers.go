@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gergab1129/bookings/internal/config"
+	"github.com/gergab1129/bookings/internal/forms"
 	"github.com/gergab1129/bookings/internal/models"
 	"github.com/gergab1129/bookings/internal/render"
 )
@@ -58,7 +59,53 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "make-reservation.page.tmpl", &models.TemplateData{}, r)
+	
+	emptyReservation  := models.Reservation{}
+	
+	data := make(map[string]interface{})
+	data["reservation"] = emptyReservation
+
+	render.RenderTemplate(w, "make-reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+		Data: data,
+	}, r)
+}
+
+//PostReservation handles the posting of a reservation form
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+
+	reservation := models.Reservation{
+		FirstName: form.Values.Get("first_name"),
+		LastName: form.Values.Get("last_name"),
+		Email: form.Values.Get("email"),
+		Phone: form.Values.Get("phone"),
+	}
+
+	form.Required("first_name", "last_name", "email", "phone")
+	form.MinLegth("first_name", 3)
+	form.Email("email")
+	
+	if !form.IsValid() {
+		data := make(map[string]interface{})
+		data["reservation"] = reservation
+
+		render.RenderTemplate(w, "make-reservation.page.tmpl", &models.TemplateData{
+			Form: form,
+			Data: data,
+		}, r)
+
+		return
+	}
+
 }
 
 func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
@@ -70,7 +117,11 @@ func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{}, r)
+	render.RenderTemplate(w, "search-availability.page.tmpl",
+	 &models.TemplateData{}, 
+	 r,
+	)
+
 }
 
 func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {

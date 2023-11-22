@@ -8,26 +8,55 @@
           <div class="col-md-6">
             <h1 class="mt-5">Make Reservation</h1>
 
-            <form method="POST" class="input-group needs-validation", action="" novalidate>
+            {{$res := index .Data "reservation"}}
+            <form method="POST" class="input-group", action="" novalidate>
+            <input type="hidden" name="csrf_token" value={{.CSRFToken}}>  
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="first_name" class="form-label">First Name</label>
-                        <input required type="text" class="form-control" id="start_date" name="start_date" aria-describedby="firstNameHelp" placeholder="First Name" >
+                        {{with .Form.Errors.Get "first_name"}}
+                          <label class="text-danger">{{.}}</label>
+                        {{end}}
+                        <input required type="text" 
+                        class="form-control {{with .Form.Errors.Get "first_name"}} is-invalid {{end}}"
+                         id="first_name" name="first_name" aria-describedby="firstNameHelp" placeholder="First Name" 
+                         value="{{$res.FirstName}}">
                         <div id="firstNameHelp" class="form-text">Introduce your first name</div>
                       </div>
                       <div class="col-md-6">
                         <label for="last_name" class="form-label">Last Name</label>
-                        <input required type="text" class="form-control" id="last_date" name="last_date" aria-describedby="lastNameHelp" placeholder="Last Name" >
+                        {{with .Form.Errors.Get "last_name"}}
+                          <label class="text-danger">{{.}}</label>
+                        {{end}}
+                        <input required type="text" 
+                        class="form-control {{with .Form.Errors.Get "last_name"}} is-invalid {{end}}" id="last_name" name="last_name" 
+                        aria-describedby="lastNameHelp" placeholder="Last Name" value="{{$res.LastName}}">
                         <div id="lastNameHelp" class="form-text">Introduce your last name</div>
                       </div>
                       <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input required type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+                        {{with .Form.Errors.Get "email"}}
+                          <label class="text-danger">{{.}}</label>
+                        {{end}}
+                        <input required type="email" 
+                        class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" 
+                        id="email" name="email" 
+                        aria-describedby="emailHelp" value="{{$res.Email}}">
+                        <span hidden id="emailError">
+                          <label for="emailError"></label>
+                        </span>
                         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                       </div>
                       <div class="input-group mb-3">
+                        {{with .Form.Errors.Get "phone"}}
+                          <label class="text-danger">{{.}}</label>
+                        {{end}}
                         <span class="input-group-text">Telephone</span>
-                        <input required type="tel" class="form-control" id="phone" name="phone" aria-label="Telephone number">
+                        <input required type="tel" 
+                        class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}" 
+                        id="phone" name="phone" 
+                        aria-label="Telephone number" value="{{$res.Phone}}">
                       </div>
                 </div>
               
@@ -42,4 +71,21 @@
     </div>
 
 
+{{end}}
+
+
+{{define "js"}}
+      let emailElement = document.getElementById("email")
+      let emailErrorMsg = document.getElementById("emailError")
+      emailElement.addEventListener("input", () => {
+        let emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        const emailError = "Please enter a valid email address"
+          if (emailElement.value.match(emailRegex)) {
+            console.log("Valid")
+            emailElement.classList.add('was-validated');
+          } else {
+            emailErrorMsg.style.visbility = "visible"
+            emailErrorMsg.textContent = emailError
+          }
+      })
 {{end}}
