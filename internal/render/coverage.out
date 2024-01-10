@@ -1,0 +1,25 @@
+mode: set
+github.com/gergab1129/bookings/internal/render/render.go:20.40,22.2 1 1
+github.com/gergab1129/bookings/internal/render/render.go:24.84,30.2 5 1
+github.com/gergab1129/bookings/internal/render/render.go:34.51,38.18 2 1
+github.com/gergab1129/bookings/internal/render/render.go:38.18,40.3 1 0
+github.com/gergab1129/bookings/internal/render/render.go:40.8,42.3 1 1
+github.com/gergab1129/bookings/internal/render/render.go:53.2,55.9 2 1
+github.com/gergab1129/bookings/internal/render/render.go:55.9,59.3 2 1
+github.com/gergab1129/bookings/internal/render/render.go:61.2,67.16 4 1
+github.com/gergab1129/bookings/internal/render/render.go:67.16,71.3 2 0
+github.com/gergab1129/bookings/internal/render/render.go:74.2,76.16 2 1
+github.com/gergab1129/bookings/internal/render/render.go:76.16,78.3 1 0
+github.com/gergab1129/bookings/internal/render/render.go:92.2,92.12 1 1
+github.com/gergab1129/bookings/internal/render/render.go:96.67,106.16 3 1
+github.com/gergab1129/bookings/internal/render/render.go:106.16,109.3 2 0
+github.com/gergab1129/bookings/internal/render/render.go:113.2,113.29 1 1
+github.com/gergab1129/bookings/internal/render/render.go:113.29,117.17 3 1
+github.com/gergab1129/bookings/internal/render/render.go:117.17,120.4 1 0
+github.com/gergab1129/bookings/internal/render/render.go:122.3,125.17 2 1
+github.com/gergab1129/bookings/internal/render/render.go:125.17,127.4 1 0
+github.com/gergab1129/bookings/internal/render/render.go:129.3,129.26 1 1
+github.com/gergab1129/bookings/internal/render/render.go:129.26,132.18 2 1
+github.com/gergab1129/bookings/internal/render/render.go:132.18,134.5 1 0
+github.com/gergab1129/bookings/internal/render/render.go:137.3,137.31 1 1
+github.com/gergab1129/bookings/internal/render/render.go:140.2,140.27 1 1

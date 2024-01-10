@@ -1,0 +1,18 @@
+mode: set
+github.com/gergab1129/bookings/internal/forms/errors.go:7.47,10.2 1 1
+github.com/gergab1129/bookings/internal/forms/errors.go:13.42,16.18 2 1
+github.com/gergab1129/bookings/internal/forms/errors.go:16.18,18.3 1 0
+github.com/gergab1129/bookings/internal/forms/errors.go:18.8,20.3 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:20.33,25.2 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:28.39,30.31 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:30.31,32.3 1 0
+github.com/gergab1129/bookings/internal/forms/forms.go:32.8,34.3 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:39.31,41.2 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:44.43,45.31 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:45.31,48.37 2 1
+github.com/gergab1129/bookings/internal/forms/forms.go:48.37,50.4 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:55.56,58.38 2 1
+github.com/gergab1129/bookings/internal/forms/forms.go:58.38,61.3 2 1
+github.com/gergab1129/bookings/internal/forms/forms.go:61.8,63.3 1 1
+github.com/gergab1129/bookings/internal/forms/forms.go:68.36,69.40 1 0
+github.com/gergab1129/bookings/internal/forms/forms.go:69.40,71.3 1 0
