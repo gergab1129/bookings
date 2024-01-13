@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestError_Get(t *testing.T){
+func TestError_Get(t *testing.T) {
 	data := url.Values{}
 	data.Add("a", "foo")
 

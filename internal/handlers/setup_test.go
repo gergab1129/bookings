@@ -12,6 +12,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/gergab1129/bookings/internal/config"
+	"github.com/gergab1129/bookings/internal/driver"
 	"github.com/gergab1129/bookings/internal/models"
 	"github.com/gergab1129/bookings/internal/render"
 	"github.com/go-chi/chi/v5"
@@ -26,15 +27,14 @@ var pathToTemplates = "./../../templates"
 var infoLog *log.Logger
 var errorLog *log.Logger
 
-
 // NoSurf adds CSRF protection to all POST request
 func NoSurf(next http.Handler) http.Handler {
 	csrfHandler := nosurf.New(next)
 
 	csrfHandler.SetBaseCookie(http.Cookie{
 		HttpOnly: true,
-		Path: "/",
-		Secure: app.InProduciton,
+		Path:     "/",
+		Secure:   app.InProduciton,
 		SameSite: http.SameSiteLaxMode,
 	})
 
@@ -74,7 +74,7 @@ func createTestTemplateCache() (map[string]*template.Template, error) {
 		}
 
 		layoutPath, err := filepath.Glob(fmt.Sprintf("%s/*.layout.tmpl",
-		 pathToTemplates))
+			pathToTemplates))
 
 		if err != nil {
 			fmt.Println("Error: ", err)
@@ -93,7 +93,6 @@ func createTestTemplateCache() (map[string]*template.Template, error) {
 
 	return templateCache, nil
 }
-
 
 func getRoutes() http.Handler {
 
@@ -116,20 +115,20 @@ func getRoutes() http.Handler {
 
 	app.Session = session
 
-	tc, err :=  createTestTemplateCache()
+	tc, err := createTestTemplateCache()
 
 	if err != nil {
 		fmt.Println("Cannot create template cache")
 	}
-	
+
 	app.TemplateCache = tc
 	app.UseCache = true
 
-	repo := NewRepo(&app)
+	repo := NewRepo(&app, &driver.DB{})
 
 	NewHandlers(repo)
 
-	render.NewTemplates(&app)
+	render.Template(&app)
 
 	mux := chi.NewRouter()
 
@@ -141,7 +140,7 @@ func getRoutes() http.Handler {
 	mux.Get("/about", Repo.About)
 	mux.Get("/generals-quarters", Repo.Generals)
 	mux.Get("/majors-suite", Repo.Majors)
-	
+
 	mux.Get("/search-availability", Repo.Availability)
 	mux.Post("/search-availability", Repo.PostAvailability)
 	mux.Post("/search-availability-json", Repo.AvailabilityJSON)
@@ -151,8 +150,6 @@ func getRoutes() http.Handler {
 	mux.Get("/make-reservations", Repo.Reservation)
 	mux.Post("/make-reservations", Repo.PostReservation)
 	mux.Get("/reservation-summary", Repo.ReservationSummary)
-	
-
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

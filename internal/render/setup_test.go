@@ -23,7 +23,6 @@ func TestMain(m *testing.M) {
 	// set to true when in production
 	testApp.InProduciton = false
 
-
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	testApp.InfoLog = infoLog
 
@@ -43,7 +42,7 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-type myWriter struct {}
+type myWriter struct{}
 
 func (w myWriter) Header() http.Header {
 	var h http.Header

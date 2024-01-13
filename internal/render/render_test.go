@@ -8,15 +8,15 @@ import (
 )
 
 func TestAddDefaultData(t *testing.T) {
-	
+
 	var td models.TemplateData
-	
+
 	r, err := getSession()
 
 	if err != nil {
 		t.Error(err)
 	}
-	
+
 	session.Put(r.Context(), "flash", "123")
 	result := AddDefaultData(&td, r)
 
@@ -26,9 +26,9 @@ func TestAddDefaultData(t *testing.T) {
 
 }
 
-func TestRenderTemplate(t *testing.T)  {
+func TestRenderTemplate(t *testing.T) {
 
-	pathToTemplates =  "./../../templates"
+	pathToTemplates = "./../../templates"
 
 	tc, err := CreateTemplateCache()
 
@@ -43,26 +43,25 @@ func TestRenderTemplate(t *testing.T)  {
 	if err != nil {
 		t.Error(err)
 	}
-	
-	var ww myWriter
-	err = RenderTemplate(ww, "home.page.tmpl", &models.TemplateData{}, r)
 
-	if err != nil { 
+	var ww myWriter
+	err = Template(ww, "home.page.tmpl", &models.TemplateData{}, r)
+
+	if err != nil {
 		t.Error("error writing template to browser")
 	}
 
-	err = RenderTemplate(ww, "err-home.page.tmpl", &models.TemplateData{}, r)
+	err = Template(ww, "err-home.page.tmpl", &models.TemplateData{}, r)
 
-	if err == nil { 
+	if err == nil {
 		t.Error("render template that don't exist")
 	}
 }
 
-
 func getSession() (*http.Request, error) {
 
-	r, err  :=  http.NewRequest("GET", "/", nil)
-	
+	r, err := http.NewRequest("GET", "/", nil)
+
 	if err != nil {
 		return nil, err
 	}
@@ -75,8 +74,8 @@ func getSession() (*http.Request, error) {
 
 }
 
-func TestNewTemplates(t *testing.T){
-	NewTemplates(app)
+func TestNewTemplates(t *testing.T) {
+	NewRenderer(app)
 }
 
 func TestCreateTempleateCache(t *testing.T) {

@@ -8,17 +8,17 @@ import (
 )
 
 type postData struct {
-	key string;
-	value string;
+	key   string
+	value string
 }
 
-var Tests = []struct{
-	name string;
-	url string;
-	method string;
-	params []postData;
-	expectedStatusCode int;
-} {
+var Tests = []struct {
+	name               string
+	url                string
+	method             string
+	params             []postData
+	expectedStatusCode int
+}{
 	{"home", "/", "GET", []postData{}, http.StatusOK},
 	{"about", "/about", "GET", []postData{}, http.StatusOK},
 	{"gq", "/generals-quarters", "GET", []postData{}, http.StatusOK},
@@ -27,15 +27,15 @@ var Tests = []struct{
 	{"contact", "/contact", "GET", []postData{}, http.StatusOK},
 	{"mr", "/make-reservations", "GET", []postData{}, http.StatusOK},
 	{"post-search-avail", "/search-availability", "POST", []postData{
-		{key: "start", value: "2023-01-01"}, 
+		{key: "start", value: "2023-01-01"},
 		{key: "end", value: "2023-01-02"},
 	}, http.StatusOK},
 	{"post-search-avail-json", "/search-availability-json", "POST", []postData{
-		{key: "start", value: "2023-01-01"}, 
+		{key: "start", value: "2023-01-01"},
 		{key: "end", value: "2023-01-02"},
 	}, http.StatusOK},
 	{"make reservation", "/make-reservations", "POST", []postData{
-		{key: "first_name", value: "German"}, 
+		{key: "first_name", value: "German"},
 		{key: "last_name", value: "Rodriguez"},
 		{key: "email", value: "me@here.com"},
 		{key: "phone", value: "3015398906"},
@@ -43,17 +43,17 @@ var Tests = []struct{
 }
 
 func TestHandlers(t *testing.T) {
-	
+
 	routes := getRoutes()
 	ts := httptest.NewTLSServer(routes)
 	defer ts.Close()
 
 	for _, te := range Tests {
-		if te.method == "GET"{
+		if te.method == "GET" {
 
 			resp, err := ts.Client().Get(ts.URL + te.url)
 
-			if err != nil  {
+			if err != nil {
 				t.Log(err)
 				t.Fatal(err)
 			}
@@ -71,9 +71,9 @@ func TestHandlers(t *testing.T) {
 				values.Add(p.key, p.value)
 			}
 
-			resp, err := ts.Client().PostForm(ts.URL + te.url, values)
+			resp, err := ts.Client().PostForm(ts.URL+te.url, values)
 
-			if err != nil  {
+			if err != nil {
 				t.Log(err)
 				t.Fatal(err)
 			}

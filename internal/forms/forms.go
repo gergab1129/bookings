@@ -9,7 +9,7 @@ import (
 )
 
 // Forms create a custom From struct
-type Form struct{
+type Form struct {
 	url.Values
 	Errors errors
 }
@@ -19,7 +19,7 @@ type Form struct{
 // New initializes a form struct
 func New(data url.Values) *Form {
 	return &Form{
-		data, 
+		data,
 		errors{},
 	}
 }
@@ -35,12 +35,12 @@ func (f *Form) Has(field string) bool {
 
 }
 
-//IsValid returns true if form is valid otherwiser returns false
+// IsValid returns true if form is valid otherwiser returns false
 func (f *Form) IsValid() bool {
 	return len(f.Errors) == 0
 }
 
-//Required ranges trough the slice of field names and checks if blank
+// Required ranges trough the slice of field names and checks if blank
 func (f *Form) Required(fields ...string) {
 	for _, field := range fields {
 		value := f.Get(field)
@@ -61,7 +61,7 @@ func (f *Form) MinLegth(field string, length int) bool {
 	} else {
 		return true
 	}
-	// return len([]rune(fieldValue)) > length 
+	// return len([]rune(fieldValue)) > length
 }
 
 // Email checks for valid e-mail address

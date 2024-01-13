@@ -16,8 +16,8 @@ import (
 var app *config.AppConfig
 var pathToTemplates string = "./templates"
 
-// NewTemplates sets the config for template package
-func NewTemplates(a *config.AppConfig) {
+// NewRenderer sets the config for template package
+func NewRenderer(a *config.AppConfig) {
 	app = a
 }
 
@@ -29,12 +29,12 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 	return td
 }
 
-// RenderTemplate render templates using html
-func RenderTemplate(w http.ResponseWriter, tmpl string,
-	 td *models.TemplateData, r *http.Request) error {
+// Template render templates using html
+func Template(w http.ResponseWriter, tmpl string,
+	td *models.TemplateData, r *http.Request) error {
 
-	var tc map[string] *template.Template
-	
+	var tc map[string]*template.Template
+
 	if app.UseCache {
 		tc = app.TemplateCache
 	} else {
@@ -89,7 +89,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string,
 	// 	return
 	// }
 
-	return nil 
+	return nil
 
 }
 
@@ -116,11 +116,11 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 
 		if err != nil {
 			fmt.Println("Error: ", err)
-			
+
 		}
 
 		layoutPath, err := filepath.Glob(fmt.Sprintf("%s/*.layout.tmpl",
-		 pathToTemplates))
+			pathToTemplates))
 
 		if err != nil {
 			fmt.Println("Error: ", err)

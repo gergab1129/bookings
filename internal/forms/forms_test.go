@@ -20,7 +20,7 @@ func TestNew(t *testing.T) {
 		url.Values{},
 		errors{},
 	}
-	
+
 	compare := &test_form
 
 	if reflect.TypeOf(form) != reflect.TypeOf(compare) {
@@ -30,7 +30,7 @@ func TestNew(t *testing.T) {
 
 func TestForm_MinLength(t *testing.T) {
 	data := url.Values{}
-	
+
 	data.Add("a", "foo")
 	data.Add("b", "bar")
 
@@ -52,10 +52,9 @@ func TestForm_Valid(t *testing.T) {
 	}
 }
 
-
 func TestForm_Required(t *testing.T) {
 	data := url.Values{}
-	
+
 	data.Add("a", "")
 	data.Add("b", "bar")
 
@@ -69,7 +68,7 @@ func TestForm_Required(t *testing.T) {
 
 	formNotRequired.Required("b")
 	// fmt.Println(formNotRequired.Errors)
-	if (len(formNotRequired.Errors)>0) {
+	if len(formNotRequired.Errors) > 0 {
 		t.Error("form marked as invalid when field is not required")
 	}
 
@@ -83,5 +82,5 @@ func TestForm_Has(t *testing.T) {
 
 	if !form.Has("a") {
 		t.Error("find field that does not exists")
-	} 
+	}
 }
