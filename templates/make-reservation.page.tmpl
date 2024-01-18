@@ -7,11 +7,19 @@
           <div class="col-md-3"></div>
           <div class="col-md-6">
             <h1 class="mt-5">Make Reservation</h1>
-
             {{$res := index .Data "reservation"}}
+            <p><strong>Reservation detail</strong><br>
+              Room: {{$res.Room.RoomName}} <br>
+              Arrival: {{index .StringMap "start_date"}}<br>
+              Departure: {{index .StringMap "end_date"}}<br>
+            
+            </p>
             <form method="POST" class="input-group", action="" novalidate>
             <input type="hidden" name="csrf_token" value={{.CSRFToken}}>  
-            <input type="hidden" name="room_id" value="1">
+            <input type="hidden" name="room_id" value="{{$res.RoomId}}">
+            <input type="hidden" name="start_date" value="{{index .StringMap "start_date"}}">
+            <input type="hidden" name="end_date" value="{{index .StringMap "end_date"}}">
+            <input type="hidden" name="room_name" value="{{$res.Room.RoomName}}">
             
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -58,16 +66,6 @@
                         class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}" 
                         id="phone" name="phone" 
                         aria-label="Telephone number" value="{{$res.Phone}}">
-                      </div>
-
-                      <div class="form-group mb-3">
-                        <label for="start_date">Start Date</label>
-                        <input type="text" name="start_date" id="start_date" class="form-control">
-                      </div>
-
-                      <div class="form-group mb-3">
-                        <label for="end_date">End Date</label>
-                        <input type="text" name="end_date" id="end_date" class="form-control">
                       </div>
 
                       
