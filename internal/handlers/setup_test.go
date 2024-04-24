@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"testing"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/gergab1129/bookings/internal/config"
-	"github.com/gergab1129/bookings/internal/driver"
 	"github.com/gergab1129/bookings/internal/models"
 	"github.com/gergab1129/bookings/internal/render"
 	"github.com/go-chi/chi/v5"
@@ -26,6 +26,53 @@ var pathToTemplates = "./../../templates"
 
 var infoLog *log.Logger
 var errorLog *log.Logger
+
+func TestMain(m *testing.M) {
+
+	gob.Register(models.Reservation{})
+
+	// set to true when in production
+	app.InProduciton = false
+
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
+	session = scs.New()
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = app.InProduciton
+
+	app.Session = session
+
+	mailChan := make(chan models.MailData)
+
+	app.MailChan = mailChan
+	defer close(app.MailChan)
+
+	listenForMail()
+
+	tc, err := createTestTemplateCache()
+
+	if err != nil {
+		fmt.Println("Cannot create template cache")
+	}
+
+	app.TemplateCache = tc
+	app.UseCache = true
+
+	repo := NewTestRepo(&app)
+
+	NewHandlers(repo)
+
+	render.NewRenderer(&app)
+
+	os.Exit(m.Run())
+
+}
 
 // NoSurf adds CSRF protection to all POST request
 func NoSurf(next http.Handler) http.Handler {
@@ -94,41 +141,15 @@ func createTestTemplateCache() (map[string]*template.Template, error) {
 	return templateCache, nil
 }
 
+func listenForMail() {
+	go func() {
+		for {
+			<-app.MailChan
+		}
+	}()
+}
+
 func getRoutes() http.Handler {
-
-	gob.Register(models.Reservation{})
-
-	// set to true when in production
-	app.InProduciton = false
-
-	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	app.InfoLog = infoLog
-
-	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
-	app.ErrorLog = errorLog
-
-	session = scs.New()
-	session.Lifetime = 24 * time.Hour
-	session.Cookie.Persist = true
-	session.Cookie.SameSite = http.SameSiteLaxMode
-	session.Cookie.Secure = app.InProduciton
-
-	app.Session = session
-
-	tc, err := createTestTemplateCache()
-
-	if err != nil {
-		fmt.Println("Cannot create template cache")
-	}
-
-	app.TemplateCache = tc
-	app.UseCache = true
-
-	repo := NewRepo(&app, &driver.DB{})
-
-	NewHandlers(repo)
-
-	render.Template(&app)
 
 	mux := chi.NewRouter()
 
