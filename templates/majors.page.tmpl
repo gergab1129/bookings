@@ -24,29 +24,12 @@
         </div>
 
     </div>
+  <script src="/static/js/book-room.js"></script>
 
 {{end}}
 
 {{ define "js" }}
-        let book_btn = document.getElementById("check-availability-btn")
-            book_btn.addEventListener("click", function() {
-            let html = `<form id="check-avilability-form" action="" method="post" novalidate class="needs-validation">
-                        <div class="row">
-                            <div class="col">
-                                <div id="date-picker">
-                                <div class="row">
-                                    <div class="col">
-                                    <input required type="text" class="form-control" name="start" id="start" placeholder="Arrival Date">
-                                    </div>
-                                    <div class="col">
-                                    <input required type="text" class="form-control" name="end" id="end" placeholder="Departure Date">  
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>`
 
-            attention.custom({title: "Select date range", msg: html})
-            })
+SearchAvailability({{.CSRFToken}}, "2")
+
 {{ end }}

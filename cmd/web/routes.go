@@ -3,15 +3,14 @@ package main
 import (
 	"net/http"
 
-	"github.com/gergab1129/bookings/internal/config"
-	"github.com/gergab1129/bookings/internal/handlers"
-
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+
+	"github.com/gergab1129/bookings/internal/config"
+	"github.com/gergab1129/bookings/internal/handlers"
 )
 
 func routes(app *config.AppConfig) http.Handler {
-
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
@@ -24,6 +23,7 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/majors-suite", handlers.Repo.Majors)
 
 	mux.Get("/choose-room/{id}", handlers.Repo.ChooseRoom)
+	mux.Get("/book-room", handlers.Repo.BookRoom)
 
 	mux.Get("/search-availability", handlers.Repo.Availability)
 	mux.Post("/search-availability", handlers.Repo.PostAvailability)
@@ -35,8 +35,17 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Post("/make-reservations", handlers.Repo.PostReservation)
 	mux.Get("/reservation-summary", handlers.Repo.ReservationSummary)
 
+	mux.Get("/user/login", handlers.Repo.ShowLogin)
+	mux.Post("/user/login", handlers.Repo.PostShowLogin)
+	mux.Get("/user/logout", handlers.Repo.Logout)
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
+
+	mux.Route("/admin", func(mux chi.Router) {
+		mux.Use(Auth)
+
+		mux.Get("/dashboard", handlers.Repo.AdminDashboard)
+	})
 
 	return mux
 }

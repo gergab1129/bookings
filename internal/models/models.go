@@ -62,3 +62,12 @@ type Reservation struct {
 	UpdatedAt time.Time `db:"updated_at"`
 	Room      Room
 }
+
+// MailData holds and e-mail message
+type MailData struct {
+	To       string
+	From     string
+	Subject  string
+	Content  string
+	Template string
+}

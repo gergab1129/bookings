@@ -8,33 +8,35 @@ import (
 	"os"
 	"time"
 
+	"github.com/alexedwards/scs/v2"
+
 	"github.com/gergab1129/bookings/internal/config"
 	"github.com/gergab1129/bookings/internal/driver"
 	"github.com/gergab1129/bookings/internal/handlers"
 	"github.com/gergab1129/bookings/internal/helpers"
 	"github.com/gergab1129/bookings/internal/models"
 	"github.com/gergab1129/bookings/internal/render"
-
-	"github.com/alexedwards/scs/v2"
 )
 
 const portNumber string = ":8080"
 
-var infoLog *log.Logger
-var errorLog *log.Logger
-var app config.AppConfig
-var session *scs.SessionManager
+var (
+	infoLog  *log.Logger
+	errorLog *log.Logger
+	app      config.AppConfig
+	session  *scs.SessionManager
+)
 
 func main() {
-
 	db, err := run()
-
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	defer db.SQL.Close()
 
+	defer close(app.MailChan)
+	listenForMail()
 	// http.HandleFunc("/", handlers.Repo.Home)
 	// http.HandleFunc("/about", handlers.Repo.About)
 
@@ -45,18 +47,14 @@ func main() {
 		Addr:    portNumber,
 		Handler: routes(&app),
 	}
-
 	err = srv.ListenAndServe()
-
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(1)
 	}
-
 }
 
 func run() (*driver.DB, error) {
-
 	// what I am going to put in the session
 
 	gob.Register(models.Reservation{})
@@ -64,6 +62,9 @@ func run() (*driver.DB, error) {
 	gob.Register(models.RoomRestriction{})
 	gob.Register(models.Reservation{})
 	gob.Register(models.Restriction{})
+
+	mailChan := make(chan models.MailData)
+	app.MailChan = mailChan
 
 	// set to true when in production
 	app.InProduciton = false
@@ -86,8 +87,9 @@ func run() (*driver.DB, error) {
 
 	log.Println("Connecting to database...")
 
-	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings user=german sslmode=disable")
-
+	db, err := driver.ConnectSQL(
+		"host=localhost port=5432 dbname=bookings user=german sslmode=disable",
+	)
 	if err != nil {
 		log.Fatal("Cannot connect to database")
 	}
@@ -95,7 +97,6 @@ func run() (*driver.DB, error) {
 	log.Println("Connected to database!")
 
 	tc, err := render.CreateTemplateCache()
-
 	if err != nil {
 		fmt.Println("Cannot create template cache")
 		return nil, err
@@ -110,4 +111,8 @@ func run() (*driver.DB, error) {
 	helpers.NewHelpers(&app)
 
 	return db, nil
+}
+
+func hello() {
+	fmt.Println("hello world!")
 }

@@ -42,7 +42,8 @@
   const elem = document.getElementById("date_range");
         const rangepicker = new DateRangePicker(elem, {
           buttonClass: 'btn',
-          format: 'yyyy-mm-dd'
+          format: 'yyyy-mm-dd',
+          minDate: new Date(), 
           // ...options
         }); 
   

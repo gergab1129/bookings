@@ -14,15 +14,15 @@ type DB struct {
 
 var dbConn = &DB{}
 
-const maxOpenDBConn = 10
-const maxIdleDbConn = 5
-const maxDBLifetime = 5 * time.Minute
+const (
+	maxOpenDBConn = 10
+	maxIdleDbConn = 5
+	maxDBLifetime = 5 * time.Minute
+)
 
 // ConnectSQL create database pool to postgres
 func ConnectSQL(dsn string) (*DB, error) {
-
 	db, err := NewDatabase(dsn)
-
 	if err != nil {
 		panic(err)
 	}
@@ -34,7 +34,6 @@ func ConnectSQL(dsn string) (*DB, error) {
 	dbConn.SQL = db
 
 	err = testDB(db)
-
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +44,6 @@ func ConnectSQL(dsn string) (*DB, error) {
 // testDB tries to ping the database
 func testDB(db *sqlx.DB) error {
 	err := db.Ping()
-
 	if err != nil {
 		return err
 	}
@@ -56,7 +54,6 @@ func testDB(db *sqlx.DB) error {
 // NewDatabase creates a new database abstraction for the application
 func NewDatabase(dsn string) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres", dsn)
-
 	if err != nil {
 		return nil, err
 	}

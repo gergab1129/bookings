@@ -25,3 +25,10 @@ func ServerError(w http.ResponseWriter, err error) {
 	app.ErrorLog.Println(trace)
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
+
+// Authenticated validates if user is authenticated
+func Authenticated(r *http.Request) bool {
+    exits := app.Session.Exists(r.Context(), "user_id")
+
+    return exits
+}
